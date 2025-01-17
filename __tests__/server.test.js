@@ -1,10 +1,17 @@
 const request = require('supertest');
-const { app, server } = require('../server'); // Import both the app and server
+const { app, startServer, stopServer } = require('../server'); // Import app and control functions
 
 describe('GET /', () => {
+  let server; // Hold the server instance for testing
+
+  // Start the server before running the tests
+  beforeAll(() => {
+    server = startServer();
+  });
+
+  // Close the server after all tests are done
   afterAll(() => {
-    // Close the server after all tests
-    server.close();
+    stopServer();
   });
 
   it('should return "Hello, World!"', async () => {
