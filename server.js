@@ -2,19 +2,32 @@ const express = require('express');
 const app = express();
 const port = 3000;
 
-let server; // Add a variable to hold the server instance
+let server; // Declare a variable to hold the server instance
 
 // Define a simple route
 app.get('/', (req, res) => {
   res.send('Hello, World!');
 });
 
-// Start the server
+// Start the server only if it's not in a test environment
 if (process.env.NODE_ENV !== 'test') {
   server = app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
   });
 }
 
-// Export the app and server instance for testing
-module.exports = { app, server };
+// Export the app and a function to start the server
+module.exports = {
+  app,
+  startServer: () => {
+    server = app.listen(port, () => {
+      console.log(`Test server running on http://localhost:${port}`);
+    });
+    return server;
+  },
+  stopServer: () => {
+    if (server) {
+      server.close();
+    }
+  }
+};
