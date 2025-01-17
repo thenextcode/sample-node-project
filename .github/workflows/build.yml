@@ -32,4 +32,4 @@ jobs:
 
       # Step 5: Run tests (if you have tests configured)
       - name: Run tests
-        run: npm test
+        run: npm test --detectOpenHandles
